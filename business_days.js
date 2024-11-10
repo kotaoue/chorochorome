@@ -1,14 +1,21 @@
-function calculateBusinessDays(startDate, days) {
+async function fetchHolidaysFromAPI() {
+    const url = 'https://date.nager.at/api/v3/PublicHolidays/2024/JP';
+    const response = await fetch(url);
+    const data = await response.json();
+  
+    return data.map(holiday => holiday.date); // YYYY-MM-DD形式
+  }
+  
+  async function calculateBusinessDays(startDate, days) {
     let count = 0;
     let currentDate = new Date(startDate);
-    const holidays = ["2024-11-23", "2024-12-25"]; // 祝日をここに追加
+    const holidays = await fetchHolidaysFromAPI();
   
     while (count < days) {
       currentDate.setDate(currentDate.getDate() + 1);
       const day = currentDate.getDay();
       const formattedDate = currentDate.toISOString().split('T')[0];
   
-      // 土日と祝日を除外
       if (day !== 0 && day !== 6 && !holidays.includes(formattedDate)) {
         count++;
       }
@@ -26,15 +33,20 @@ function calculateBusinessDays(startDate, days) {
     return `${year}-${month}-${day}(${weekday})`;
   }
   
-  function displayBusinessDays() {
+  async function displayBusinessDays() {
     const ul = document.getElementById('business-days');
     const daysArray = [5, 10, 30, 50, 100];
     const today = new Date();
   
-    daysArray.forEach(days => {
-      const businessDay = calculateBusinessDays(today, days);
+    // Promise.allで並列に営業日を計算
+    const businessDays = await Promise.all(
+      daysArray.map(days => calculateBusinessDays(today, days))
+    );
+  
+    // 結果をリストに追加
+    businessDays.forEach((businessDay, index) => {
       const listItem = document.createElement('li');
-      listItem.textContent = `${days}営業日後: ${formatDateToJapaneseWithWeekday(businessDay)}`;
+      listItem.textContent = `${daysArray[index]}営業日後: ${formatDateToJapaneseWithWeekday(businessDay)}`;
       ul.appendChild(listItem);
     });
   }
