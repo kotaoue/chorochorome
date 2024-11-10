@@ -6,6 +6,9 @@
     "action": {
       "default_popup": "business_days.html"
     },
-    "permissions": []
+    "permissions": ["storage"],
+    "host_permissions": [
+      "https://date.nager.at/*"
+    ]
   }
   
