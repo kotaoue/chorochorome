@@ -3,7 +3,7 @@ const CACHE_KEY = "holidaysCache";
 const CACHE_TIMESTAMP_KEY = "holidaysCacheTimestamp";
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
-function fetchHolidays() {
+function getHolidays() {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([CACHE_KEY, CACHE_TIMESTAMP_KEY], (result) => {
       const cachedHolidays = result[CACHE_KEY];
@@ -14,13 +14,7 @@ function fetchHolidays() {
         resolve(cachedHolidays);
       } else {
         console.log("Fetching holiday data from API...");
-        fetch(HOLIDAYS_API_URL)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`Failed to fetch data: ${response.statusText}`);
-            }
-            return response.json();
-          })
+        fetchFromAPI(HOLIDAYS_API_URL)
           .then(data => {
             chrome.storage.local.set({
               [CACHE_KEY]: data,
@@ -30,14 +24,26 @@ function fetchHolidays() {
               resolve(data);
             });
           })
-          .catch(err => {
-            console.error("Failed to fetch holiday data from API:", err);
-            reject(err);
-          });
+          .catch(reject); // Pass the error to the caller
       }
     });
   });
 }
+
+
+function fetchFromAPI(url) {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .catch(err => {
+        console.error("Error fetching data from API:", err);
+        throw err;
+      });
+  }  
 
 function calculateBusinessDays(startDate, days, holidays) {
   let count = 0;
@@ -66,7 +72,7 @@ function formatDateToJapaneseWithWeekday(date) {
 }
 
 function displayBusinessDays() {
-  fetchHolidays().then(holidays => {
+  getHolidays().then(holidays => {
     const ul = document.getElementById('business-days');
     const daysArray = [5, 10, 30, 50, 100];
     const today = new Date();
