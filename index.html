@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>営業日計算ちゃん</title>
+  <title>ちょろちょろめ</title>
   <style>
     body {
-      width: 255px;
+      width: 300px;
       padding: 20px;
       font-family: 
         "Yu Gothic", 
@@ -23,11 +23,22 @@
     li {
       margin-bottom: 10px;
     }
+    p {
+      margin: 5px 0;
+    }    
   </style>
 </head>
 <body>
-  <h1>営業日計算</h1>
-  <ul id="business-days"></ul>
-  <script src="business_days.js"></script>
+  <h1>ちょろちょろめ</h1>
+  <section>
+    <h2>時刻表示</h2>
+    <ul id="times"></ul>
+    <script src="time.js"></script>      
+  </section>
+  <section>
+    <h2>営業日計算</h2>
+    <ul id="business-days"></ul>
+    <script src="business_days.js"></script>  
+  </section>
 </body>
 </html>

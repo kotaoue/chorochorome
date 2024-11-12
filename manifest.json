@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "kotaoueのためのChrome拡張機能。",
     "action": {
-      "default_popup": "business_days.html"
+      "default_popup": "index.html"
     },
     "permissions": ["storage"],
     "host_permissions": [
