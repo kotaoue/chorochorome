@@ -37,9 +37,20 @@ function formatDateToCustomString(date) {
 
 function appendTimeListItem(ul, label, time) {
     const li = document.createElement('li');
-    li.textContent = `${label}: ${time}`;
+  
+    const labelSpan = document.createElement('span');
+    labelSpan.textContent = label;
+    labelSpan.className = 'label';
+  
+    const dateSpan = document.createElement('span');
+    dateSpan.textContent = time;
+    dateSpan.className = 'date';
+  
+    li.appendChild(labelSpan);
+    li.appendChild(dateSpan);
     ul.appendChild(li);
-}
+  }
+  
 
 // Update the time every second
 setInterval(updateTime, 1000);

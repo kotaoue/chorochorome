@@ -31,8 +31,9 @@
       padding: 0;
     }
     li {
-      padding: 3px;
-      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
     }
     li:nth-child(odd) {
       background-color: #e0f7fa;
@@ -42,6 +43,14 @@
     }        
     li:hover {
       background-color: #d1e7fd;
+    }
+    .label {
+      text-align: left;
+      font-weight: bold;
+      flex: 1;
+    }
+    .date {
+      text-align: right;
     }
   </style>
 </head>
