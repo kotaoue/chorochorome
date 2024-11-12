@@ -1,14 +1,15 @@
 {
-    "manifest_version": 3,
-    "name": "ちょろちょろめ",
-    "version": "1.0",
-    "description": "kotaoueのためのChrome拡張機能。",
-    "action": {
-      "default_popup": "index.html"
-    },
-    "permissions": ["storage"],
-    "host_permissions": [
-      "https://date.nager.at/*"
-    ]
-  }
-  
+  "manifest_version": 3,
+  "name": "ちょろちょろめ",
+  "version": "1.0",
+  "description": "kotaoueのためのChrome拡張機能。",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://date.nager.at/*"
+  ]
+}

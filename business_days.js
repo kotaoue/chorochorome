@@ -32,18 +32,18 @@ function getHolidays() {
 
 
 function fetchFromAPI(url) {
-    return fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .catch(err => {
-        console.error("Error fetching data from API:", err);
-        throw err;
-      });
-  }  
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .catch(err => {
+      console.error("Error fetching data from API:", err);
+      throw err;
+    });
+}
 
 function calculateBusinessDays(startDate, days, holidays) {
   let count = 0;
