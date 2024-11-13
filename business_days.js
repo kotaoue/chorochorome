@@ -3,6 +3,23 @@ const CACHE_KEY = "holidaysCache";
 const CACHE_TIMESTAMP_KEY = "holidaysCacheTimestamp";
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
+function updateBusinessDays() {
+  const ul = document.getElementById('business-days');
+  ul.innerHTML = ''; // Clear previous list items
+
+  getHolidays().then(holidays => {
+    const daysArray = [5, 10, 30, 50, 100];
+    const today = new Date();
+
+    daysArray.forEach(days => {
+      const businessDay = calculateBusinessDays(today, days, holidays);
+      appendBusinessDayListItem(ul, `${days}営業日後`, formatDateToJapaneseWithWeekday(businessDay));
+    });
+  }).catch(err => {
+    console.error("Error during business day calculation:", err);
+  });
+}
+
 function getHolidays() {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([CACHE_KEY, CACHE_TIMESTAMP_KEY], (result) => {
@@ -29,7 +46,6 @@ function getHolidays() {
     });
   });
 }
-
 
 function fetchFromAPI(url) {
   return fetch(url)
@@ -71,21 +87,20 @@ function formatDateToJapaneseWithWeekday(date) {
   return `${year}-${month}-${day} (${weekday})`;
 }
 
-function displayBusinessDays() {
-  getHolidays().then(holidays => {
-    const ul = document.getElementById('business-days');
-    const daysArray = [5, 10, 30, 50, 100];
-    const today = new Date();
+function appendBusinessDayListItem(ul, label, date) {
+  const li = document.createElement('li');
 
-    daysArray.forEach((days) => {
-      const businessDay = calculateBusinessDays(today, days, holidays);
-      const listItem = document.createElement('li');
-      listItem.textContent = `${days}営業日後: ${formatDateToJapaneseWithWeekday(businessDay)}`;
-      ul.appendChild(listItem);
-    });
-  }).catch(err => {
-    console.error("Error during business day calculation:", err);
-  });
+  const labelSpan = document.createElement('span');
+  labelSpan.textContent = label;
+  labelSpan.className = 'label';
+
+  const dateSpan = document.createElement('span');
+  dateSpan.textContent = date;
+  dateSpan.className = 'value';
+
+  li.appendChild(labelSpan);
+  li.appendChild(dateSpan);
+  ul.appendChild(li);
 }
 
-document.addEventListener('DOMContentLoaded', displayBusinessDays);
+updateBusinessDays();
