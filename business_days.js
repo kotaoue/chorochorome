@@ -5,7 +5,7 @@ const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 function updateBusinessDays() {
   const ul = document.getElementById('business-days');
-  ul.innerHTML = ''; // Clear previous list items
+  ul.innerHTML = '';
 
   getHolidays().then(holidays => {
     const daysArray = [5, 10, 30, 50, 100];
@@ -13,7 +13,7 @@ function updateBusinessDays() {
 
     daysArray.forEach(days => {
       const businessDay = calculateBusinessDays(today, days, holidays);
-      appendBusinessDayListItem(ul, `${days}営業日後`, formatDateToJapaneseWithWeekday(businessDay));
+      appendListItem(ul, `${days}営業日後`, formatDateToJapaneseWithWeekday(businessDay));
     });
   }).catch(err => {
     console.error("Error during business day calculation:", err);
@@ -41,7 +41,7 @@ function getHolidays() {
               resolve(data);
             });
           })
-          .catch(reject); // Pass the error to the caller
+          .catch(reject);
       }
     });
   });
@@ -85,22 +85,6 @@ function formatDateToJapaneseWithWeekday(date) {
   const weekday = weekdays[date.getDay()];
 
   return `${year}-${month}-${day} (${weekday})`;
-}
-
-function appendBusinessDayListItem(ul, label, date) {
-  const li = document.createElement('li');
-
-  const labelSpan = document.createElement('span');
-  labelSpan.textContent = label;
-  labelSpan.className = 'label';
-
-  const dateSpan = document.createElement('span');
-  dateSpan.textContent = date;
-  dateSpan.className = 'value';
-
-  li.appendChild(labelSpan);
-  li.appendChild(dateSpan);
-  ul.appendChild(li);
 }
 
 updateBusinessDays();
