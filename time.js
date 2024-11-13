@@ -44,7 +44,7 @@ function appendTimeListItem(ul, label, time) {
 
   const dateSpan = document.createElement('span');
   dateSpan.textContent = time;
-  dateSpan.className = 'date';
+  dateSpan.className = 'value';
 
   li.appendChild(labelSpan);
   li.appendChild(dateSpan);
