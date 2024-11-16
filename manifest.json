@@ -7,7 +7,9 @@
     "default_popup": "index.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "system.cpu",
+    "system.memory"
   ],
   "host_permissions": [
     "https://date.nager.at/*"
