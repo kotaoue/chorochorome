@@ -2,35 +2,31 @@ function updateTime() {
   const ul = document.getElementById('times');
   ul.innerHTML = '';
 
-  appendListItem(ul, 'JST', getJSTTime());
-
-  appendListItem(ul, 'UTC', getUTCTime());
-  appendListItem(ul, 'UTC+4hr', getUTCTime(4));
-  appendListItem(ul, 'UTC+8hr', getUTCTime(8));
-  appendListItem(ul, 'UTC+12hr', getUTCTime(12));
-  appendListItem(ul, 'UTC-4hr', getUTCTime(-4));
-  appendListItem(ul, 'UTC-8hr', getUTCTime(-8));
-  appendListItem(ul, 'UTC-12hr', getUTCTime(-12));
+  appendListItem(ul, 'JST', getFormattedTime('Asia/Tokyo'));
+  appendListItem(ul, 'UTC', getFormattedTime('UTC'));
+  appendListItem(ul, 'UTC+4hr', getFormattedTime('UTC', 4));
+  appendListItem(ul, 'UTC+8hr', getFormattedTime('UTC', 8));
+  appendListItem(ul, 'UTC+12hr', getFormattedTime('UTC', 12));
+  appendListItem(ul, 'UTC-4hr', getFormattedTime('UTC', -4));
+  appendListItem(ul, 'UTC-8hr', getFormattedTime('UTC', -8));
+  appendListItem(ul, 'UTC-12hr', getFormattedTime('UTC', -12));
 }
 
-function getJSTTime() {
+function getFormattedTime(timeZone, offsetHours = 0) {
   const now = new Date();
-  return formatDateToCustomString(new Date(now.getTime() + 9 * 60 * 60 * 1000));
-}
 
-function getUTCTime(offsetHours = 0) {
-  const now = new Date();
-  return formatDateToCustomString(new Date(now.getTime() + offsetHours * 60 * 60 * 1000));
-}
+  const targetDate = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
 
-function formatDateToCustomString(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
+  return new Intl.DateTimeFormat('ja-JP', {
+    timeZone: timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).format(targetDate);
 }
 
 setInterval(updateTime, 1000 * 60);
