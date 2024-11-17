@@ -86,5 +86,3 @@ function formatDateToJapaneseWithWeekday(date) {
 
   return `${year}-${month}-${day} (${weekday})`;
 }
-
-updateBusinessDays();

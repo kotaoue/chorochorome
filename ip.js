@@ -22,5 +22,3 @@ function fetchIPAddress() {
       return 'Failed to fetch IP';
     });
 }
-
-updateIP();

@@ -28,6 +28,3 @@ function getFormattedTime(timeZone, offsetHours = 0) {
     hour12: false
   }).format(targetDate);
 }
-
-setInterval(updateTime, 1000 * 60);
-updateTime();

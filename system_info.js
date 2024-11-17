@@ -62,6 +62,3 @@ async function getMemoryUsage() {
     throw error;
   }
 }
-
-setInterval(updateSystemInfo, 1000);
-updateSystemInfo();
