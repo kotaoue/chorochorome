@@ -36,26 +36,46 @@ function updateHolidays() {
     console.error("Error during business day calculation:", err);
   });
 }
-
 function getHolidays() {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get([CACHE_KEY, CACHE_TIMESTAMP_KEY], (result) => {
-      const cachedHolidays = result[CACHE_KEY];
-      const cacheTimestamp = result[CACHE_TIMESTAMP_KEY];
+    checkCache(CACHE_KEY, CACHE_TIMESTAMP_KEY, 24 * 60 * 60 * 1000) // 24 hours
+      .then(cachedData => {
+        if (cachedData) {
+          console.log("Loaded holiday data from cache.");
+          resolve(cachedData);
+        } else {
+          console.log("Fetching holiday data from API...");
+          // FIXME: Avoid hardcoding the year
+          fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
+            .then(data => {
+              saveToCache(CACHE_KEY, data, CACHE_TIMESTAMP_KEY);
+              resolve(data);
+            })
+            .catch(reject);
+        }
+      })
+      .catch(error => {
+        console.error("Error checking cache:", error);
+        reject(error);
+      });
+  });
+}
 
-      const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
-      if (cachedHolidays && Date.now() - cacheTimestamp < cacheDuration) {
-        console.log("Loaded holiday data from cache.");
-        resolve(cachedHolidays);
+function checkCache(key, timestampKey, duration) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get([key, timestampKey], (result) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
+
+      const cachedData = result[key];
+      const cacheTimestamp = result[timestampKey];
+
+      if (cachedData && Date.now() - cacheTimestamp < duration) {
+        resolve(cachedData);
       } else {
-        console.log("Fetching holiday data from API...");
-        // FIXME: Avoid hardcoding the year
-        fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
-          .then(data => {
-            saveToCache(CACHE_KEY, data, CACHE_TIMESTAMP_KEY);
-            resolve(data);
-          })
-          .catch(reject);
+        resolve(null);
       }
     });
   });
