@@ -118,6 +118,7 @@ function fetchFromAPI(url) {
 }
 
 function calculateBusinessDays(startDate, days, holidays) {
+  const holidayDates = holidays.map(holiday => holiday.date);
   let count = 0;
   let currentDate = new Date(startDate);
 
@@ -126,10 +127,11 @@ function calculateBusinessDays(startDate, days, holidays) {
     const day = currentDate.getDay();
     const formattedDate = currentDate.toISOString().split('T')[0];
 
-    if (day !== 0 && day !== 6 && !holidays.includes(formattedDate)) {
+    if (day !== 0 && day !== 6 && !holidayDates.includes(formattedDate)) {
       count++;
     }
   }
+
   return currentDate;
 }
 
