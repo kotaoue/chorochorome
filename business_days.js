@@ -43,8 +43,9 @@ function getHolidays() {
         if (cachedData) {
           resolve(cachedData);
         } else {
-          // FIXME: Avoid hardcoding the year
-          fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
+          const currentYear = new Date().getFullYear();
+          const apiUrl = `https://date.nager.at/api/v3/PublicHolidays/${currentYear}/JP`;
+          fetchFromAPI(apiUrl)
             .then(data => {
               saveToCache(cacheKey, data, cacheTimestampKey);
               resolve(data);
