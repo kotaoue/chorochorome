@@ -41,10 +41,8 @@ function getHolidays() {
     checkCache(cacheKey, cacheTimestampKey, 24 * 60 * 60 * 1000) // 24 hours
       .then(cachedData => {
         if (cachedData) {
-          console.log("Loaded holiday data from cache.");
           resolve(cachedData);
         } else {
-          console.log("Fetching holiday data from API...");
           // FIXME: Avoid hardcoding the year
           fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
             .then(data => {
@@ -91,6 +89,8 @@ function saveToCache(key, data, timestampKey) {
 }
 
 function fetchFromAPI(url) {
+  console.log("Fetching holiday data from API:", url);
+
   return fetch(url)
     .then(response => {
       if (!response.ok) {
