@@ -1,6 +1,3 @@
-const CACHE_KEY = "holidaysCache";
-const CACHE_TIMESTAMP_KEY = "holidaysCacheTimestamp";
-
 function updateBusinessDays() {
   const ul = document.getElementById('business-days');
   if (!ul) {
@@ -37,8 +34,11 @@ function updateHolidays() {
   });
 }
 function getHolidays() {
+  const cacheTimestampKey = "holidaysCacheTimestamp";
+  const cacheKey = "holidaysCache";
+
   return new Promise((resolve, reject) => {
-    checkCache(CACHE_KEY, CACHE_TIMESTAMP_KEY, 24 * 60 * 60 * 1000) // 24 hours
+    checkCache(cacheKey, cacheTimestampKey, 24 * 60 * 60 * 1000) // 24 hours
       .then(cachedData => {
         if (cachedData) {
           console.log("Loaded holiday data from cache.");
@@ -48,7 +48,7 @@ function getHolidays() {
           // FIXME: Avoid hardcoding the year
           fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
             .then(data => {
-              saveToCache(CACHE_KEY, data, CACHE_TIMESTAMP_KEY);
+              saveToCache(cacheKey, data, cacheTimestampKey);
               resolve(data);
             })
             .catch(reject);
