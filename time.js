@@ -7,12 +7,8 @@ function updateTime() {
 
   appendListItem(ul, 'JST', getFormattedTime('Asia/Tokyo'));
   appendListItem(ul, 'UTC', getFormattedTime('UTC'));
-  appendListItem(ul, 'UTC+4hr', getFormattedTime('UTC', 4));
-  appendListItem(ul, 'UTC+8hr', getFormattedTime('UTC', 8));
-  appendListItem(ul, 'UTC+12hr', getFormattedTime('UTC', 12));
-  appendListItem(ul, 'UTC-4hr', getFormattedTime('UTC', -4));
-  appendListItem(ul, 'UTC-8hr', getFormattedTime('UTC', -8));
-  appendListItem(ul, 'UTC-12hr', getFormattedTime('UTC', -12));
+  appendListItem(ul, 'UTC+6hr', getFormattedTime('UTC', 6));
+  appendListItem(ul, 'UTC-6hr', getFormattedTime('UTC', -6));
 }
 
 function getFormattedTime(timeZone, offsetHours = 0) {
