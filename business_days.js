@@ -6,7 +6,7 @@ function updateBusinessDays() {
   ul.innerHTML = '';
 
   getHolidays().then(holidays => {
-    const daysArray = [5, 10, 20, 30, 50, 100];
+    const daysArray = [5, 10, 20, 40, 60];
     const today = new Date();
 
     daysArray.forEach(days => {
