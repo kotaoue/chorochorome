@@ -33,6 +33,7 @@ function updateHolidays() {
     console.error("Error during business day calculation:", err);
   });
 }
+
 function getHolidays() {
   const cacheTimestampKey = "holidaysCacheTimestamp";
   const cacheKey = "holidaysCache";
