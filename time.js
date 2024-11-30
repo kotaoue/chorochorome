@@ -1,5 +1,8 @@
 function updateTime() {
   const ul = document.getElementById('times');
+  if (!ul) {
+    return;
+  }
   ul.innerHTML = '';
 
   appendListItem(ul, 'JST', getFormattedTime('Asia/Tokyo'));

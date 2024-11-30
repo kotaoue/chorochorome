@@ -1,5 +1,8 @@
 async function updateSystemInfo() {
   const ul = document.getElementById('system_info');
+  if (!ul) {
+    return;
+  }
   ul.innerHTML = '';
 
   try {

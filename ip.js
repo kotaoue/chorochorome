@@ -1,5 +1,8 @@
 function updateIP() {
   const ul = document.getElementById('ip');
+  if (!ul) {
+    return;
+  }
   ul.innerHTML = '';
 
   fetchIPAddress().then(ip => {

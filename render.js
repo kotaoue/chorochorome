@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateIP();
     updateSystemInfo();
     updateTime();
+    updateHolidays();
 
     setInterval(updateView, 1000);
   }

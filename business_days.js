@@ -1,10 +1,11 @@
-const HOLIDAYS_API_URL = "https://date.nager.at/api/v3/PublicHolidays/2024/JP";
 const CACHE_KEY = "holidaysCache";
 const CACHE_TIMESTAMP_KEY = "holidaysCacheTimestamp";
-const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 function updateBusinessDays() {
   const ul = document.getElementById('business-days');
+  if (!ul) {
+    return;
+  }
   ul.innerHTML = '';
 
   getHolidays().then(holidays => {
@@ -20,18 +21,35 @@ function updateBusinessDays() {
   });
 }
 
+function updateHolidays() {
+  const ul = document.getElementById('holidays');
+  if (!ul) {
+    return;
+  }
+  ul.innerHTML = '';
+
+  getHolidays().then(holidays => {
+    holidays.forEach(holiday => {
+      appendListItem(ul, holiday.localName, formatDateToJapaneseWithWeekday(new Date(holiday.date)));
+    });
+  }).catch(err => {
+    console.error("Error during business day calculation:", err);
+  });
+}
+
 function getHolidays() {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([CACHE_KEY, CACHE_TIMESTAMP_KEY], (result) => {
       const cachedHolidays = result[CACHE_KEY];
       const cacheTimestamp = result[CACHE_TIMESTAMP_KEY];
 
-      if (cachedHolidays && Date.now() - cacheTimestamp < CACHE_DURATION) {
+      const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
+      if (cachedHolidays && Date.now() - cacheTimestamp < cacheDuration) {
         console.log("Loaded holiday data from cache.");
         resolve(cachedHolidays);
       } else {
         console.log("Fetching holiday data from API...");
-        fetchFromAPI(HOLIDAYS_API_URL)
+        fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
           .then(data => {
             chrome.storage.local.set({
               [CACHE_KEY]: data,
