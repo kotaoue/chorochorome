@@ -26,7 +26,15 @@ function updateHolidays() {
   ul.innerHTML = '';
 
   getHolidays().then(holidays => {
-    holidays.forEach(holiday => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const futureHolidays = holidays.filter(holiday => {
+      const holidayDate = new Date(holiday.date);
+      return holidayDate >= today;
+    });
+
+    futureHolidays.forEach(holiday => {
       appendListItem(ul, holiday.localName, formatDateToJapaneseWithWeekday(new Date(holiday.date)));
     });
   }).catch(err => {
