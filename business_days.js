@@ -52,17 +52,21 @@ function getHolidays() {
         // FIXME: Avoid hardcoding the year
         fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
           .then(data => {
-            chrome.storage.local.set({
-              [CACHE_KEY]: data,
-              [CACHE_TIMESTAMP_KEY]: Date.now()
-            }, () => {
-              console.log("Holiday data cached successfully.");
-              resolve(data);
-            });
+            saveToCache(CACHE_KEY, data, CACHE_TIMESTAMP_KEY);
+            resolve(data);
           })
           .catch(reject);
       }
     });
+  });
+}
+
+function saveToCache(key, data, timestampKey) {
+  chrome.storage.local.set({
+    [key]: data,
+    [timestampKey]: Date.now()
+  }, () => {
+    console.log("Data cached successfully.");
   });
 }
 
