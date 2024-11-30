@@ -49,6 +49,7 @@ function getHolidays() {
         resolve(cachedHolidays);
       } else {
         console.log("Fetching holiday data from API...");
+        // FIXME: Avoid hardcoding the year
         fetchFromAPI("https://date.nager.at/api/v3/PublicHolidays/2024/JP")
           .then(data => {
             chrome.storage.local.set({
