@@ -35,24 +35,35 @@ function updateHolidays() {
 }
 
 function getHolidays() {
+  const cacheKey = "holidaysCache1";
   const cacheTimestampKey = "holidaysCacheTimestamp";
-  const cacheKey = "holidaysCache";
 
   return new Promise((resolve, reject) => {
     checkCache(cacheKey, cacheTimestampKey, 24 * 60 * 60 * 1000) // 24 hours
       .then(cachedData => {
         if (cachedData) {
           resolve(cachedData);
-        } else {
-          const currentYear = new Date().getFullYear();
-          const apiUrl = `https://date.nager.at/api/v3/PublicHolidays/${currentYear}/JP`;
-          fetchFromAPI(apiUrl)
-            .then(data => {
-              saveToCache(cacheKey, data, cacheTimestampKey);
-              resolve(data);
-            })
-            .catch(reject);
+          return;
         }
+
+        const currentYear = new Date().getFullYear();
+        const nextYear = currentYear + 1;
+        const apiUrls = [
+          `https://date.nager.at/api/v3/PublicHolidays/${currentYear}/JP`,
+          `https://date.nager.at/api/v3/PublicHolidays/${nextYear}/JP`
+        ];
+
+        Promise.all(apiUrls.map(fetchFromAPI))
+          .then(dataArrays => {
+            const combinedData = dataArrays.flat();
+            console.log("Fetched holiday data:", combinedData);
+            saveToCache(cacheKey, combinedData, cacheTimestampKey);
+            resolve(combinedData);
+          })
+          .catch(err => {
+            console.error("Error fetching holiday data:", err);
+            reject(err);
+          });
       })
       .catch(error => {
         console.error("Error checking cache:", error);
