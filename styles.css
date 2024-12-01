@@ -79,6 +79,30 @@ li:hover {
 }
 
 footer {
-    padding: 5px;
     text-align: center;
+}
+
+#pomodoro-timer {
+    padding: 8px;
+    border: 0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#pomodoro-display {
+    font-size: 2em;
+}
+
+#pomodoro-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    margin: 3px;
+    padding: 2px;
+    font-size: 1em;
+    cursor: pointer;
 }

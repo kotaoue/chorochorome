@@ -8,9 +8,10 @@
   <script src="common.js"></script>
   <script src="business_days.js"></script>
   <script src="ip.js"></script>
+  <script src="pomodoro.js"></script>
+  <script src="render.js"></script>
   <script src="system_info.js"></script>
   <script src="time.js"></script>
-  <script src="render.js"></script>
 </head>
 
 <body>
@@ -27,6 +28,16 @@
       </div>
     </section>
     <section>
+      <div>
+        <h2>ポモドーロ</h2>
+        <div id="pomodoro-timer">
+          <span id="pomodoro-display">--:--</span>
+          <div id="pomodoro-buttons">
+            <button id="start-pomodoro">開始</button>
+            <button id="reset-pomodoro">リセット</button>
+          </div>
+        </div>
+      </div>
       <div>
         <h2>IPアドレス</h2>
         <ul id="ip"></ul>
