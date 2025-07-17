@@ -3,12 +3,15 @@ function updateTime() {
   if (!ul) {
     return;
   }
-  ul.innerHTML = '';
 
-  appendListItem(ul, 'JST', getFormattedTime('Asia/Tokyo'));
-  appendListItem(ul, 'UTC', getFormattedTime('UTC'));
-  appendListItem(ul, 'UTC+6hr', getFormattedTime('UTC', 6));
-  appendListItem(ul, 'UTC-6hr', getFormattedTime('UTC', -6));
+  const newItems = [
+    { label: 'JST', value: getFormattedTime('Asia/Tokyo') },
+    { label: 'UTC', value: getFormattedTime('UTC') },
+    { label: 'UTC+6hr', value: getFormattedTime('UTC', 6) },
+    { label: 'UTC-6hr', value: getFormattedTime('UTC', -6) }
+  ];
+
+  updateListIfChanged(ul, newItems);
 }
 
 function updateJstTimes() {
@@ -16,17 +19,20 @@ function updateJstTimes() {
   if (!ul) {
     return;
   }
-  ul.innerHTML = '';
 
-  appendListItem(ul, 'JST', getFormattedTime('Asia/Tokyo'));
-  appendListItem(ul, 'JST+4hr', getFormattedTime('Asia/Tokyo', 4));
-  appendListItem(ul, 'JST+6hr', getFormattedTime('Asia/Tokyo', 6));
-  appendListItem(ul, 'JST+8hr', getFormattedTime('Asia/Tokyo', 8));
-  appendListItem(ul, 'JST+12hr', getFormattedTime('Asia/Tokyo', 12));
-  appendListItem(ul, 'JST-4hr', getFormattedTime('Asia/Tokyo', -4));
-  appendListItem(ul, 'JST-6hr', getFormattedTime('Asia/Tokyo', -6));
-  appendListItem(ul, 'JST-8hr', getFormattedTime('Asia/Tokyo', -8));
-  appendListItem(ul, 'JST-12hr', getFormattedTime('Asia/Tokyo', -12));
+  const newItems = [
+    { label: 'JST', value: getFormattedTime('Asia/Tokyo') },
+    { label: 'JST+4hr', value: getFormattedTime('Asia/Tokyo', 4) },
+    { label: 'JST+6hr', value: getFormattedTime('Asia/Tokyo', 6) },
+    { label: 'JST+8hr', value: getFormattedTime('Asia/Tokyo', 8) },
+    { label: 'JST+12hr', value: getFormattedTime('Asia/Tokyo', 12) },
+    { label: 'JST-4hr', value: getFormattedTime('Asia/Tokyo', -4) },
+    { label: 'JST-6hr', value: getFormattedTime('Asia/Tokyo', -6) },
+    { label: 'JST-8hr', value: getFormattedTime('Asia/Tokyo', -8) },
+    { label: 'JST-12hr', value: getFormattedTime('Asia/Tokyo', -12) }
+  ];
+
+  updateListIfChanged(ul, newItems);
 }
 
 function updateUtcTimes() {
@@ -34,17 +40,20 @@ function updateUtcTimes() {
   if (!ul) {
     return;
   }
-  ul.innerHTML = '';
 
-  appendListItem(ul, 'UTC', getFormattedTime('UTC'));
-  appendListItem(ul, 'UTC+4hr', getFormattedTime('UTC', 4));
-  appendListItem(ul, 'UTC+6hr', getFormattedTime('UTC', 6));
-  appendListItem(ul, 'UTC+8hr', getFormattedTime('UTC', 8));
-  appendListItem(ul, 'UTC+12hr', getFormattedTime('UTC', 12));
-  appendListItem(ul, 'UTC-4hr', getFormattedTime('UTC', -4));
-  appendListItem(ul, 'UTC-6hr', getFormattedTime('UTC', -6));
-  appendListItem(ul, 'UTC-8hr', getFormattedTime('UTC', -8));
-  appendListItem(ul, 'UTC-12hr', getFormattedTime('UTC', -12));
+  const newItems = [
+    { label: 'UTC', value: getFormattedTime('UTC') },
+    { label: 'UTC+4hr', value: getFormattedTime('UTC', 4) },
+    { label: 'UTC+6hr', value: getFormattedTime('UTC', 6) },
+    { label: 'UTC+8hr', value: getFormattedTime('UTC', 8) },
+    { label: 'UTC+12hr', value: getFormattedTime('UTC', 12) },
+    { label: 'UTC-4hr', value: getFormattedTime('UTC', -4) },
+    { label: 'UTC-6hr', value: getFormattedTime('UTC', -6) },
+    { label: 'UTC-8hr', value: getFormattedTime('UTC', -8) },
+    { label: 'UTC-12hr', value: getFormattedTime('UTC', -12) }
+  ];
+
+  updateListIfChanged(ul, newItems);
 }
 
 function getFormattedTime(timeZone, offsetHours = 0) {

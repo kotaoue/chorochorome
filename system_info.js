@@ -3,17 +3,23 @@ async function updateSystemInfo() {
   if (!ul) {
     return;
   }
-  ul.innerHTML = '';
 
   try {
     const cpuUsage = await getCpuUsage();
-    appendListItem(ul, 'CPU', cpuUsage);
-
     const memoryUsage = await getMemoryUsage();
-    appendListItem(ul, 'Memory', memoryUsage);
+
+    const newItems = [
+      { label: 'CPU', value: cpuUsage },
+      { label: 'Memory', value: memoryUsage }
+    ];
+
+    updateListIfChanged(ul, newItems);
   } catch (error) {
     console.error('Error updating system info:', error);
-    appendListItem(ul, 'Error', 'Failed to retrieve system info');
+    const newItems = [
+      { label: 'Error', value: 'Failed to retrieve system info' }
+    ];
+    updateListIfChanged(ul, newItems);
   }
 }
 

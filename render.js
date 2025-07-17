@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+  let lastUpdateSecond = -1;
+
   function updateView() {
-    updateSystemInfo();
-    updateTime();
-    updateJstTimes();
-    updateUtcTimes();
+    const now = new Date();
+    const currentSecond = now.getSeconds();
+
+    if (currentSecond !== lastUpdateSecond) {
+      updateSystemInfo();
+      updateTime();
+      updateJstTimes();
+      updateUtcTimes();
+      lastUpdateSecond = currentSecond;
+    }
   }
 
   function initialize() {
@@ -15,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUtcTimes();
     updateHolidays();
 
-    setInterval(updateView, 1000);
+    // Set an interval to update the view every second
+    setInterval(updateView, 100);
   }
 
   initialize();

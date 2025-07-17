@@ -54,6 +54,7 @@ li {
     display: flex;
     justify-content: space-between;
     padding: 8px;
+    transition: all 0.2s ease-in-out;
 }
 
 li:nth-child(odd) {
@@ -72,10 +73,12 @@ li:hover {
     text-align: left;
     font-weight: bold;
     flex: 1;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .value {
     text-align: right;
+    transition: opacity 0.2s ease-in-out;
 }
 
 footer {
